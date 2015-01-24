@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,8 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
     private Word EXIT;
     private Word THEGAME;
     private MainThread thread;
+    private int ScreenWidth;
+    private int ScreenHeight;
     //private ArrayList<Sprite> SpriteArrayList = new ArrayList<Sprite>();
 
     public MainGamePanel(Context context) {
@@ -42,18 +47,24 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
         // make the GamePanel focusable so it can handle events
         setFocusable(true);
 
+        //get Screen Size
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        ScreenWidth = display.getWidth();
+        ScreenHeight = display.getHeight();
+
         //load resources
         fontblack = BitmapFactory.decodeResource(getResources(), R.drawable.fontkingthingsblack);
         THEGAME = new Word("THE GAME", this, fontblack);
-        THEGAME.setPos(300,0);
+        THEGAME.setPos(ScreenWidth/2 - 200,50);
         SINGLEPLAYER = new Word("SINGLEPLAYER",this,fontblack);
-        SINGLEPLAYER.setPos(100,300);
+        SINGLEPLAYER.setPos(ScreenWidth/2 - 300,ScreenHeight/7 + 200);
         MULTIPLAYER = new Word("MULTIPLAYER", this, fontblack);
-        MULTIPLAYER.setPos(200,400);
+        MULTIPLAYER.setPos(ScreenWidth/2 - 275,(ScreenHeight/7)*2 + 200);
         OPTIONS = new Word("OPTIONS", this, fontblack);
-        OPTIONS.setPos(300,500);
+        OPTIONS.setPos(ScreenWidth/2 - 180,(ScreenHeight/7)*3 + 200);
         EXIT = new Word("EXIT", this, fontblack);
-        EXIT.setPos(400,600);
+        EXIT.setPos(ScreenWidth/2 - 120,(ScreenHeight/7)*4 + 200);
     }
 
     @Override
@@ -88,7 +99,7 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (event.getX() > 400 && event.getX() < 700 && event.getY() > 600 && event.getY() < 700) { //getWidth()/getHeight()
+            if (event.getX() > ScreenWidth/2 - 120 && event.getX() < ScreenWidth/2 + 180 && event.getY() > (ScreenHeight/7)*4 + 200 && event.getY() < (ScreenHeight/7)*4 + 300) { //getWidth()/getHeight()
                 thread.setRunning(false);
                 ((Activity)getContext()).finish();
             } else {
