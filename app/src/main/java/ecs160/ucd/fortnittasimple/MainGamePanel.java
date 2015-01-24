@@ -23,8 +23,11 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
     private static final String TAG = MainGamePanel.class.getSimpleName();
 
     private Bitmap fontblack;
-    private Sprite sprite;
     private Word SINGLEPLAYER;
+    private Word MULTIPLAYER;
+    private Word OPTIONS;
+    private Word EXIT;
+    private Word THEGAME;
     private MainThread thread;
     //private ArrayList<Sprite> SpriteArrayList = new ArrayList<Sprite>();
 
@@ -41,14 +44,16 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
 
         //load resources
         fontblack = BitmapFactory.decodeResource(getResources(), R.drawable.fontkingthingsblack);
-        sprite = new Sprite(this,fontblack);
-        sprite.setBmpVals(95,1,((int)'A'- (int)' '));
-        sprite.setPos(100,100);
-        //SpriteArrayList.add(new Sprite(this,fontblack));
-        //SpriteArrayList.get(0).setBmpVals(95,1, ((int)'S' - (int)' '));
-        //SpriteArrayList.get(0).setPos(120,100);
+        THEGAME = new Word("THE GAME", this, fontblack);
+        THEGAME.setPos(300,0);
         SINGLEPLAYER = new Word("SINGLEPLAYER",this,fontblack);
         SINGLEPLAYER.setPos(100,300);
+        MULTIPLAYER = new Word("MULTIPLAYER", this, fontblack);
+        MULTIPLAYER.setPos(200,400);
+        OPTIONS = new Word("OPTIONS", this, fontblack);
+        OPTIONS.setPos(300,500);
+        EXIT = new Word("EXIT", this, fontblack);
+        EXIT.setPos(400,600);
     }
 
     @Override
@@ -83,10 +88,7 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (event.getY() > 50) {
-                sprite.setPos(200,200);
-            }
-            if (event.getX() < 50) { //getWidth()/getHeight()
+            if (event.getX() > 400 && event.getX() < 700 && event.getY() > 600 && event.getY() < 700) { //getWidth()/getHeight()
                 thread.setRunning(false);
                 ((Activity)getContext()).finish();
             } else {
@@ -99,8 +101,11 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.GRAY);
-        sprite.onDraw(canvas);
         SINGLEPLAYER.onDraw(canvas);
+        MULTIPLAYER.onDraw(canvas);
+        OPTIONS.onDraw(canvas);
+        EXIT.onDraw(canvas);
+        THEGAME.onDraw(canvas);
         //SpriteArrayList.get(0).onDraw(canvas);
     }
 
