@@ -63,4 +63,12 @@ public class Sprite {
         this.x = xpos;
         this.y = ypos;
     }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
 }
